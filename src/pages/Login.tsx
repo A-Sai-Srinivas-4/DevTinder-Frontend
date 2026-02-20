@@ -1,12 +1,14 @@
 import axios from "axios";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("saisrinivas@gmail.com");
   const [password, setPassword] = useState("Sai@1234");
 
-  const handleEmailChange = (e) => setEmailId(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setEmailId(e.target.value);
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setPassword(e.target.value);
 
   const handleLogin = async () => {
     try {

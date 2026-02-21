@@ -1,9 +1,16 @@
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
+import { useAppDispatch } from "@/appStore/hooks";
+import { setUser } from "@/appStore/slices/authSlice";
+import { api } from "@/services/api";
+import { endpoints } from "@/utils/endpoints";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("saisrinivas@gmail.com");
   const [password, setPassword] = useState("Sai@1234");
+  const appDispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) =>
     setEmailId(e.target.value);
@@ -12,18 +19,12 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:3003/api/login",
-        {
-          emailId,
-          password,
-        },
-        {
-          withCredentials: true,
-        },
-      );
-
-      console.log("res==========>", res);
+      const res = await api.post(endpoints.login, {
+        emailId,
+        password,
+      });
+      appDispatch(setUser(res.data?.data));
+      navigate("/");
     } catch (error) {
       console.log("Error logging in:", error);
     }

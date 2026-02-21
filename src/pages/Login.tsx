@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ChangeEvent, useState } from "react";
 import { useAppDispatch } from "@/appStore/hooks";
 import { setUser } from "@/appStore/slices/authSlice";
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [emailId, setEmailId] = useState("saisrinivas@gmail.com");
   const [password, setPassword] = useState("Sai@1234");
+  const [error, setError] = useState<string | null>(null);
   const appDispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -25,13 +26,20 @@ const Login = () => {
       });
       appDispatch(setUser(res.data?.data));
       navigate("/");
-    } catch (error) {
-      console.log("Error logging in:", error);
+    } catch (error: unknown) {
+      console.error("error", error);
+      if (error instanceof AxiosError) {
+        setError(
+          (error.response?.data?.message as string) || "Something went wrong",
+        );
+      }
     }
   };
 
+  console.log("error", error);
+
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center h-screen">
       <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
         <legend className="fieldset-legend">Login</legend>
 
@@ -52,6 +60,8 @@ const Login = () => {
           className="input"
           placeholder="Password"
         />
+
+        {error && <p className="text-error">{`Error: ${error}`}</p>}
 
         <button className="btn btn-neutral mt-4" onClick={handleLogin}>
           Login

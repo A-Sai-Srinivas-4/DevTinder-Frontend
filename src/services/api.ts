@@ -39,16 +39,21 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // 🚨 DO NOT RETRY AUTH CHECK API
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes(endpoints.login)
+    ) {
       originalRequest._retry = true;
 
       try {
         // silently verify cookie session
-        const res = await api.get(endpoints.profile);
+        const res = await api.get(endpoints.login);
 
         store.dispatch(setUser(res.data?.data));
 
-        // retry original API
+        // retry original API once
         return api(originalRequest);
       } catch (err) {
         store.dispatch(logout());

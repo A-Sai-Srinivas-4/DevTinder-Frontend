@@ -3,4 +3,5 @@ export const endpoints = {
   register: "/auth/signup",
   logout: "/auth/logout",
   profile: "/profile",
+  feed: "/feed",
 };

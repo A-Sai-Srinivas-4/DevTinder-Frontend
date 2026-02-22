@@ -4,20 +4,26 @@ import Profile from "../pages/Profile";
 import AppLayout from "../layout/AppLayout";
 import Feed from "@/pages/Feed";
 import Settings from "@/pages/Settings";
+import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
 
 const AppRoutes = () => {
   return (
-    <BrowserRouter basename="/">
-      <Routes>
+    <Routes>
+      {/* PUBLIC */}
+      <Route element={<PublicRoute />}>
         <Route path="/login" element={<Login />} />
-
-        <Route path="/" element={<AppLayout />}>
+      </Route>
+      
+      {/* PROTECTED */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<AppLayout />}>
           <Route path="/" element={<Feed />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
-      </Routes>
-    </BrowserRouter>
+      </Route>
+    </Routes>
   );
 };
 

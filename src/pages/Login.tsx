@@ -25,7 +25,7 @@ const Login = () => {
         password,
       });
       appDispatch(setUser(res.data?.data));
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (error: unknown) {
       console.error("error", error);
       if (error instanceof AxiosError) {
@@ -35,8 +35,6 @@ const Login = () => {
       }
     }
   };
-
-  console.log("error", error);
 
   return (
     <div className="flex justify-center items-center h-screen">

@@ -26,41 +26,27 @@ api.interceptors.request.use(
 
 // RESPONSE INTERCEPTOR
 api.interceptors.response.use(
-  (response) => {
-    store.dispatch(setLoading(false));
-    return response;
-  },
+  (res) => res,
   async (error: AxiosError) => {
-    store.dispatch(setLoading(false));
-
     const originalRequest = error.config as CustomAxiosRequestConfig;
 
-    if (!originalRequest) {
-      return Promise.reject(error);
-    }
-
-    // 🚨 DO NOT RETRY AUTH CHECK API
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      !originalRequest.url?.includes(endpoints.login)
+      !originalRequest.url?.includes(endpoints.profile)
     ) {
       originalRequest._retry = true;
 
       try {
-        // silently verify cookie session
-        const res = await api.get(endpoints.login);
-
+        const res = await api.get(endpoints.profile);
         store.dispatch(setUser(res.data?.data));
-
-        // retry original API once
         return api(originalRequest);
-      } catch (err) {
+      } catch (error) {
         store.dispatch(logout());
-        return Promise.reject(err);
       }
     }
 
+    store.dispatch(setLoading(false));
     return Promise.reject(error);
   },
 );

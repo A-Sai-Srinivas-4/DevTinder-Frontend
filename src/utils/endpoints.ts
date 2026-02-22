@@ -5,4 +5,5 @@ export const endpoints = {
   profile: "/profile",
   feed: "/feed",
   connections: "/connections",
+  requests: "/requests",
 };

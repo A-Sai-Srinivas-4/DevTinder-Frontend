@@ -3,7 +3,7 @@ import Login from "../pages/Login";
 import Profile from "../pages/Profile";
 import AppLayout from "../layout/AppLayout";
 import Feed from "@/pages/Feed";
-import Settings from "@/pages/Settings";
+import Connections from "@/pages/Connections";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 
@@ -20,7 +20,7 @@ const AppRoutes = () => {
         <Route element={<AppLayout />}>
           <Route path="/" element={<Feed />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/connections" element={<Connections />} />
         </Route>
       </Route>
     </Routes>

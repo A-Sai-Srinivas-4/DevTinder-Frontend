@@ -4,4 +4,5 @@ export const endpoints = {
   logout: "/auth/logout",
   profile: "/profile",
   feed: "/feed",
+  connections: "/connections",
 };

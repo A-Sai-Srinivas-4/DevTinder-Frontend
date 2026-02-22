@@ -6,4 +6,5 @@ export const endpoints = {
   feed: "/feed",
   connections: "/connections",
   requests: "/requests",
+  reviewRequest: "/request/review",
 };

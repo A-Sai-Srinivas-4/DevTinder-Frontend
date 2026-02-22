@@ -1,56 +1,59 @@
+import { api } from "@/services/api";
+import { endpoints } from "@/utils/endpoints";
 import { User } from "@/utils/types";
 
-const ConnectionsList = ({
-  connections,
-  isRequest,
-}: {
-  connections: User[];
+interface Props {
+  data: (User & { requestId?: string })[];
   isRequest?: boolean;
-}) => {
-  return (
-    <div className="flex flex-col gap-4 justify-center items-center">
-      <ul className="list bg-base-300 rounded-box shadow-md w-xl">
-        {connections.map((connection) => {
-          return (
-            <li
-              key={connection._id}
-              className="list-row flex justify-between items-center"
-            >
-              <div className="flex ">
-                <div>
-                  <img
-                    className="size-20 rounded-full"
-                    src={connection.photoUrl}
-                    alt="user avatar"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <div>
-                    {connection.firstName} {connection.lastName}
-                  </div>
+  handleAction?: (requestId: string, status: "accepted" | "rejected") => void;
+}
 
-                  <p className="text-sm font-semibold opacity-60">
-                    {connection.age}, {connection.gender}
-                  </p>
-                  <p className="list-col-wrap text-sm">{connection.about}</p>
-                  <div>
-                    <span className="text-xs opacity-60">
-                      {connection.skills.join(", ")}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              {isRequest && (
-                <div className="flex gap-4">
-                  <button className="btn btn-primary">Reject</button>
-                  <button className="btn btn-secondary">Accept</button>
-                </div>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+const ConnectionsList = ({ data, isRequest, handleAction }: Props) => {
+  return (
+    <ul className="list bg-base-300 rounded-box shadow-md w-xl">
+      {data.map((user) => (
+        <li
+          key={user._id}
+          className="list-row flex justify-between items-center"
+        >
+          <div className="flex gap-4">
+            <img className="size-20 rounded-full" src={user.photoUrl} />
+
+            <div className="flex flex-col gap-1">
+              <p>
+                {user.firstName} {user.lastName}
+              </p>
+
+              <p className="text-sm opacity-60">
+                {user.age}, {user.gender}
+              </p>
+
+              <p className="text-sm">{user.about}</p>
+
+              <p className="text-xs opacity-60">{user.skills.join(", ")}</p>
+            </div>
+          </div>
+
+          {isRequest && user.requestId && (
+            <div className="flex gap-2">
+              <button
+                className="btn btn-error"
+                onClick={() => handleAction!(user.requestId!, "rejected")}
+              >
+                Reject
+              </button>
+
+              <button
+                className="btn btn-success"
+                onClick={() => handleAction!(user.requestId!, "accepted")}
+              >
+                Accept
+              </button>
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
   );
 };
 

@@ -8,34 +8,27 @@ import { useEffect } from "react";
 const Connections = () => {
   const dispatch = useAppDispatch();
   const connections = useAppSelector((state) => state.connections);
+
   const getConnections = async () => {
     try {
       const res = await api.get(endpoints.connections);
       dispatch(setConnections(res.data?.data));
-    } catch (error) {
-      console.error("Error fetching connections:", error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  console.log("connections", connections);
-
   useEffect(() => {
-    if (connections.length === 0) getConnections();
+    if (connections.length === 0) {
+      getConnections();
+    }
   }, []);
 
-  if (!connections) {
-    return <div>Loading...</div>;
-  }
-
-  if (connections.length === 0) {
-    return <div>No connections found</div>;
-  }
-
   return (
-    <div className="flex flex-col justify-center gap-4">
-      <h1 className="text-center text-3xl font-bold text-white">Connections</h1>
+    <div className="flex flex-col items-center gap-4">
+      <h1 className="text-3xl font-bold">Connections</h1>
 
-      {connections.length > 0 && <ConnectionsList connections={connections} />}
+      <ConnectionsList data={connections} />
     </div>
   );
 };

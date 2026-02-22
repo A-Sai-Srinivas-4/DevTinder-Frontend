@@ -8,40 +8,56 @@ import { useEffect } from "react";
 const Requests = () => {
   const dispatch = useAppDispatch();
   const requests = useAppSelector((state) => state.requests);
+
   const getRequests = async () => {
     try {
       const res = await api.get(endpoints.requests);
       dispatch(setRequests(res.data?.data));
-    } catch (error) {
-      console.error("Error fetching requests:", error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  const userRequests = requests.map((req) => {
-    return req?.fromUserId;
-  });
-
-  console.log("userRequests", userRequests);
-
   useEffect(() => {
-    if (requests.length === 0) getRequests();
+    if (requests.length === 0) {
+      getRequests();
+    }
   }, []);
 
-  if (!requests) {
-    return <div>Loading...</div>;
-  }
+  const handleAction = async (
+    requestId: string,
+    status: "accepted" | "rejected",
+  ) => {
+    try {
+      await api.post(`${endpoints.reviewRequest}/${status}/${requestId}`);
+      dispatch(setRequests(requests.filter((req) => req._id !== requestId)));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-  if (requests.length === 0) {
-    return <div>No requests found</div>;
+  const requestUsers = requests.map((req) => ({
+    ...req.fromUserId,
+    requestId: req._id,
+  }));
+
+  if (requestUsers.length === 0) {
+    return (
+      <div className="flex flex-col items-center gap-4">
+        <h1 className="text-3xl font-bold">No Connection Requests</h1>
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col justify-center gap-4">
-      <h1 className="text-center text-3xl font-bold text-white">
-        Connection Requests
-      </h1>
+    <div className="flex flex-col items-center gap-4">
+      <h1 className="text-3xl font-bold">Connection Requests</h1>
 
-      {requests.length > 0 && <ConnectionsList connections={userRequests} isRequest={true} />}
+      <ConnectionsList
+        data={requestUsers}
+        isRequest
+        handleAction={handleAction}
+      />
     </div>
   );
 };

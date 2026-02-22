@@ -25,11 +25,11 @@ const Feed = () => {
 
   const handleAction = async (
     userId: string,
-    status: "interested" | "ignore",
+    status: "interested" | "ignored",
   ) => {
     try {
       await api.post(`${endpoints.requestSend}/${status}/${userId}`);
-      dispatch(removeFeed({ _id: userId }));
+      dispatch(removeFeed(userId));
     } catch (err) {
       console.error(err);
     }

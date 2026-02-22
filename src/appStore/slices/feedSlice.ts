@@ -5,12 +5,14 @@ const initialState: User[] = [];
 
 const feedSlice = createSlice({
   name: "feed",
-  initialState: initialState,
+  initialState,
   reducers: {
-    setFeed: (state, action: PayloadAction<User[]>) => action.payload,
-    removeFeed: (state, action) => {
-      const newFeed = state.filter((req) => req._id !== action.payload);
-      return newFeed;
+    setFeed: (state, action: PayloadAction<User[]>) => {
+      return action.payload;
+    },
+
+    removeFeed: (state, action: PayloadAction<string>) => {
+      return state.filter((user) => user._id !== action.payload);
     },
   },
 });

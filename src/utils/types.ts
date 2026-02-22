@@ -20,3 +20,14 @@ export interface ConnectionRequest {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ProfileFormData {
+  firstName: string;
+  lastName: string;
+  age: string;
+  gender: string;
+  emailId?: string;
+  password?: string;
+  about: string;
+  photoUrl: string;
+}

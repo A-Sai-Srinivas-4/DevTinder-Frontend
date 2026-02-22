@@ -2,16 +2,17 @@ import { User } from "@/utils/types";
 
 interface UserCardProps {
   data: User;
-  handleAction: (requestId: string, status: "interested" | "ignore") => void;
+  isPreview?: boolean;
+  handleAction: (requestId: string, status: "interested" | "ignored") => void;
 }
 
-const UserCard = ({ data, handleAction }: UserCardProps) => {
+const UserCard = ({ data, isPreview, handleAction }: UserCardProps) => {
   const { _id, firstName, lastName, age, gender, about, photoUrl } = data;
 
   return (
     <div className="card bg-base-300 w-96 shadow-sm">
-      <figure>
-        <img src={photoUrl} alt="user avatar" className="h-80" />
+      <figure className="px-10 pt-10">
+        <img src={photoUrl} alt="user avatar" className="h-70" />
       </figure>
       <div className="card-body">
         <h2 className="card-title">
@@ -24,7 +25,8 @@ const UserCard = ({ data, handleAction }: UserCardProps) => {
         <div className="card-actions justify-center items-center">
           <button
             className="btn btn-primary"
-            onClick={() => handleAction(_id, "ignore")}
+            onClick={() => handleAction(_id, "ignored")}
+            disabled={isPreview}
           >
             Ignore
           </button>
@@ -32,8 +34,9 @@ const UserCard = ({ data, handleAction }: UserCardProps) => {
           <button
             className="btn bg-green-500"
             onClick={() => handleAction(_id, "interested")}
+            disabled={isPreview}
           >
-            Interested
+            Interest
           </button>
         </div>
       </div>

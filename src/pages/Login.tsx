@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/appStore/hooks";
 import { setUser } from "@/appStore/slices/authSlice";
 import { api } from "@/services/api";
 import { endpoints } from "@/utils/endpoints";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("saisrinivas@gmail.com");
@@ -37,9 +37,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-        <legend className="fieldset-legend">Login</legend>
+    <div className="flex justify-center items-center h-96">
+      <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 space-y-2 mt-8">
+        <legend className="fieldset-legend text-2xl">Login</legend>
 
         <label className="label">Email</label>
         <input
@@ -64,6 +64,7 @@ const Login = () => {
         <button className="btn btn-neutral mt-4" onClick={handleLogin}>
           Login
         </button>
+        <p className="text-sm my-2"> Don't have an account? <Link to="/signup" className="text-md text-fuchsia-500 underline">Sign up</Link> </p>
       </fieldset>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/appStore/hooks";
 import { setConnections } from "@/appStore/slices/connectionSlice";
-import ConnectionsList from "@/components/ui/ConnectionsList";
+import List from "@/components/ui/List";
 import { api } from "@/services/api";
 import { endpoints } from "@/utils/endpoints";
 import { useEffect } from "react";
@@ -27,7 +27,7 @@ const Connections = () => {
   if (connections.length === 0) {
     return (
       <div className="flex flex-col items-center gap-4">
-        <h1 className="text-3xl font-bold">No Connections yet</h1>
+        <h1 className="text-2xl font-bold">No Connections yet</h1>
       </div>
     );
   }
@@ -36,7 +36,7 @@ const Connections = () => {
     <div className="flex flex-col items-center gap-4">
       <h1 className="text-3xl font-bold">Connections</h1>
 
-      <ConnectionsList data={connections} />
+      <List data={connections} />
     </div>
   );
 };

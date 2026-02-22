@@ -8,7 +8,7 @@ interface Props {
   handleAction?: (requestId: string, status: "accepted" | "rejected") => void;
 }
 
-const ConnectionsList = ({ data, isRequest, handleAction }: Props) => {
+const List = ({ data, isRequest, handleAction }: Props) => {
   return (
     <ul className="list bg-base-300 rounded-box shadow-md w-xl">
       {data.map((user) => (
@@ -57,4 +57,4 @@ const ConnectionsList = ({ data, isRequest, handleAction }: Props) => {
   );
 };
 
-export default ConnectionsList;
+export default List;

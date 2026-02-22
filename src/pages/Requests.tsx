@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/appStore/hooks";
 import { removeRequests, setRequests } from "@/appStore/slices/requestSlice";
-import ConnectionsList from "@/components/ui/ConnectionsList";
+import List from "@/components/ui/List";
 import { api } from "@/services/api";
 import { endpoints } from "@/utils/endpoints";
 import { useEffect } from "react";
@@ -44,7 +44,7 @@ const Requests = () => {
   if (requestUsers.length === 0) {
     return (
       <div className="flex flex-col items-center gap-4">
-        <h1 className="text-3xl font-bold">No Connection Requests</h1>
+        <h1 className="text-2xl font-bold">No Connection Requests</h1>
       </div>
     );
   }
@@ -53,11 +53,7 @@ const Requests = () => {
     <div className="flex flex-col items-center gap-4">
       <h1 className="text-3xl font-bold">Connection Requests</h1>
 
-      <ConnectionsList
-        data={requestUsers}
-        isRequest
-        handleAction={handleAction}
-      />
+      <List data={requestUsers} isRequest handleAction={handleAction} />
     </div>
   );
 };

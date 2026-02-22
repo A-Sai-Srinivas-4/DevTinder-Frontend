@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/appStore/hooks";
-import { setFeed } from "@/appStore/slices/feedSlice";
+import { removeFeed, setFeed } from "@/appStore/slices/feedSlice";
 import UserCard from "@/components/ui/UserCard";
 import { api } from "@/services/api";
 import { endpoints } from "@/utils/endpoints";
@@ -20,12 +20,34 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    if (!feed) getFeed();
+    if (feed.length === 0) getFeed();
   }, []);
+
+  const handleAction = async (
+    userId: string,
+    status: "interested" | "ignore",
+  ) => {
+    try {
+      await api.post(`${endpoints.requestSend}/${status}/${userId}`);
+      dispatch(removeFeed({ _id: userId }));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (feed.length === 0) {
+    return (
+      <div className="flex flex-col items-center gap-4">
+        <h1 className="text-2xl font-bold">No Users yet</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center items-center">
-      {feed && <UserCard data={feed[0]} />}
+      {feed.length > 0 && (
+        <UserCard data={feed[0]} handleAction={handleAction} />
+      )}
     </div>
   );
 };

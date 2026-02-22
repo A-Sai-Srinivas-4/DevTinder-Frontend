@@ -10,7 +10,10 @@ const requestSlice = createSlice({
     setRequests: (state, action: PayloadAction<ConnectionRequest[]>) => {
       return action.payload;
     },
-    removeRequests: (state, action) => [],
+    removeRequests: (state, action) => {
+      const updatedRequests = state.filter((req) => req._id !== action.payload._id);
+      return updatedRequests;
+    },
   },
 });
 

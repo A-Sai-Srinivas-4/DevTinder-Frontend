@@ -24,6 +24,14 @@ const Connections = () => {
     }
   }, []);
 
+  if (connections.length === 0) {
+    return (
+      <div className="flex flex-col items-center gap-4">
+        <h1 className="text-3xl font-bold">No Connections yet</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center gap-4">
       <h1 className="text-3xl font-bold">Connections</h1>

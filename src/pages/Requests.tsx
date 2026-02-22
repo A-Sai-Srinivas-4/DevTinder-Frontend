@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/appStore/hooks";
-import { setRequests } from "@/appStore/slices/requestSlice";
+import { removeRequests, setRequests } from "@/appStore/slices/requestSlice";
 import ConnectionsList from "@/components/ui/ConnectionsList";
 import { api } from "@/services/api";
 import { endpoints } from "@/utils/endpoints";
@@ -30,7 +30,7 @@ const Requests = () => {
   ) => {
     try {
       await api.post(`${endpoints.reviewRequest}/${status}/${requestId}`);
-      dispatch(setRequests(requests.filter((req) => req._id !== requestId)));
+      dispatch(removeRequests({ _id: requestId }));
     } catch (err) {
       console.error(err);
     }

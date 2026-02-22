@@ -7,4 +7,5 @@ export const endpoints = {
   connections: "/connections",
   requests: "/requests",
   reviewRequest: "/request/review",
+  requestSend: "/request/send",
 };
